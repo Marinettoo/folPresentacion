@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komercia - Presentación Final</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f172a; 
+            color: white;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+
+        .background-decoration {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+        }
+
+        section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px; right: 20px;
+            font-size: 0.8rem; opacity: 0.5;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px; border-radius: 20px;
+            z-index: 100;
+        }
+
+        img {
+            max-width: 100%; max-height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.6s ease;
+        }
+
+        /* --- SLIDE 1: INTRO --- */
+        #slide1 img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: brightness(0.8); border-radius: 0; box-shadow: none;
+        }
+        .title-overlay {
+            position: absolute; bottom: 15%; left: 5%;
+            font-size: 4rem; font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            opacity: 0; animation: slideUp 1s forwards 0.5s;
+        }
+
+        /* --- SLIDE 2: PROBLEMA --- */
+        #slide2 { background: #000; }
+        #slide2 img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.7; animation: slowZoom 10s infinite alternate;
+        }
+        .problem-text {
+            position: absolute; font-size: 3rem; color: #ffcccc;
+            text-transform: uppercase; border: 4px solid white;
+            padding: 20px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+        }
+
+        /* --- SLIDE 3: SOLUCIÓN --- */
+        #slide3 { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .laptop-mockup {
+            width: 80%; max-width: 900px; position: relative;
+            transform: rotateY(-5deg) rotateX(5deg); transition: transform 0.5s;
+        }
+        .laptop-mockup:hover { transform: rotateY(0) rotateX(0); }
+        .floating-logo {
+            position: absolute; top: -30px; right: -30px; width: 200px;
+            background: white; padding: 20px; border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* --- SLIDE 4: MERCADO --- */
+        #slide4 { background: white; }
+        .split-container { width: 100%; height: 100%; display: flex; }
+        .split-item { flex: 1; height: 100%; position: relative; overflow: hidden; }
+        .split-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 0; box-shadow: none; transition: transform 0.5s;
+        }
+        .split-item:hover img { transform: scale(1.05); }
+        .divider {
+            position: absolute; top: 0; bottom: 0; left: 50%; width: 10px;
+            background: #0f172a; transform: skewX(-15deg); z-index: 10;
+        }
+
+        /* --- SLIDE 5: VENTAJA --- */
+        #slide5 {
+            display: flex; gap: 50px;
+            background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center; width: 400px;
+        }
+        .card img { box-shadow: none; max-height: 300px; }
+
+        /* --- NUEVA SLIDE: TESTIMONIOS (FEEDBACK) --- */
+        #slide-feedback {
+            background: #ffffff;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .testimonial-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+        .testimonial-bubble {
+            background: #f8f9fa;
+            border-left: 5px solid #0f172a;
+            padding: 30px;
+            border-radius: 0 20px 20px 0;
+            width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .user-avatar {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0f172a;
+        }
+        .quote-text {
+            color: #333; font-style: italic; font-size: 1.2rem; margin-bottom: 10px;
+        }
+        .quote-author {
+            color: #0f172a; font-weight: bold; text-transform: uppercase;
+        }
+
+        /* --- SLIDE 6: RESULTADOS --- */
+        #slide6 { background: white; }
+        #slide6 img {
+            max-width: 85%; border-radius: 5px;
+            box-shadow: 0 20px 60px rgba(44, 62, 80, 0.3);
+        }
+
+        /* --- SLIDE 7: CIERRE --- */
+        #slide7 { flex-direction: column; }
+        .qr-container {
+            background: white; padding: 20px;
+            border-radius: 20px; animation: pulse 2s infinite;
+        }
+        .qr-container img { box-shadow: none; width: 300px; height: 300px; }
+        .closing-text {
+            margin-top: 30px; font-size: 2rem;
+            letter-spacing: 5px; text-transform: uppercase;
+        }
+
+        /* ANIMACIONES */
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+
+        @media print {
+            body { overflow: visible; height: auto; }
+            section { height: 100vh; page-break-after: always; }
+            .page-number { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-decoration"></div>
+
+    <section id="slide1">
+        <img src="slide1.jpg" alt="Intro">
+        <div class="title-overlay">KOMERCIA</div>
+        <div class="page-number">1 / 8</div>
+    </section>
+
+    <section id="slide2">
+        <img src="slide2(callecomercialvacia).jpg" alt="Problema">
+        <div class="problem-text">LOCAL COMMERCE IS DYING</div>
+        <div class="page-number">2 / 8</div>
+    </section>
+
+    <section id="slide3">
+        <div class="laptop-mockup">
+            <img src="slide3(paginaweb).png" alt="Plataforma">
+            <img src="slide3logo.jpg" class="floating-logo" alt="Logo">
+        </div>
+        <div class="page-number">3 / 8</div>
+    </section>
+
+    <section id="slide4">
+        <div class="split-container">
+            <div class="split-item">
+                <img src="slide4(tenderomayor).png" alt="Pyme">
+            </div>
+            <div class="divider"></div>
+            <div class="split-item">
+                <img src="slide4(jovenconmovil).jpg" alt="Cliente">
+            </div>
+        </div>
+        <div class="page-number">4 / 8</div>
+    </section>
+
+    <section id="slide5">
+        <div class="card">
+            <img src="slide5(mapaicono).png" alt="Local">
+            <h3>Hyper-local</h3>
+        </div>
+        <div class="card">
+            <img src="slide5(ods8).jpg" alt="ODS 8">
+            <h3>Sustainable</h3>
+        </div>
+        <div class="page-number">5 / 8</div>
+    </section>
+
+    <section id="slide-feedback">
+        <div class="testimonial-container">
+            <img src="maria comentarios.jpeg" class="user-avatar" alt="Maria">
+            <div class="testimonial-bubble">
+                <p class="quote-text">"Komercia is the lifeline I needed to fight against big supermarkets."</p>
+                <p class="quote-author">- Maria, Bakery Owner</p>
+            </div>
+        </div>
+        <div class="testimonial-container">
+            <div class="testimonial-bubble" style="border-left: none; border-right: 5px solid #0f172a; text-align: right; border-radius: 20px 0 0 20px;">
+                <p class="quote-text">"Finally I can buy from my neighborhood shops without leaving my sofa."</p>
+                <p class="quote-author">- Alex, Student</p>
+            </div>
+            <img src="alexEstudiante.jpg" class="user-avatar" alt="Alex">
+        </div>
+        <div class="page-number">6 / 8</div>
+    </section>
+
+    <section id="slide6">
+        <img src="slide6(graficodecrecimiento).png" alt="Crecimiento">
+        <div class="page-number">7 / 8</div>
+    </section>
+
+    <section id="slide7">
+        <div class="qr-container">
+            <img src="slide7(qr).png" alt="QR">
+        </div>
+        <h2 class="closing-text">Join the change</h2>
+        <div class="page-number">8 / 8</div>
+    </section>
+
+    <script>
+        document.addEventListener('keydown', function(e) {
+            const height = window.innerHeight;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                window.scrollBy({ top: height, behavior: 'smooth' });
+            }
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                window.scrollBy({ top: -height, behavior: 'smooth' });
+            }
+        });
+    </script>
+
+</body>
+</html>
